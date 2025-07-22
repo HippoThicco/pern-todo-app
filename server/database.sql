@@ -1,6 +1,15 @@
 CREATE DATABASE pertodo;
 
-CREATE TABLE todo(
-    todo_id SERIAL PRIMARY KEY,
-    description VARCHAR(255)
+CREATE TABLE IF NOT EXISTS todo (
+  todo_id SERIAL PRIMARY KEY,
+  description VARCHAR(255)
 );
+
+CREATE TABLE IF NOT EXISTS user (
+  user_id SERIAL PRIMARY KEY,
+  username VARCHAR(100) UNIQUE NOT NULL,
+  password VARCHAR(100) NOT NULL
+);
+
+ALTER TABLE todo
+ADD COLUMN user_id INT REFERENCES users(user_id) ON DELETE CASCADE;

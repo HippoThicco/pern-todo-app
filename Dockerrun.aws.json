@@ -1,0 +1,29 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "server",
+      "image": "server",
+      "essential": true,
+      "memory": 512,
+      "portMappings": [
+        {
+          "containerPort": 5000
+        }
+      ],
+      "build": "./server"
+    },
+    {
+      "name": "client",
+      "image": "client",
+      "essential": true,
+      "memory": 512,
+      "portMappings": [
+        {
+          "containerPort": 80
+        }
+      ],
+      "build": "./client"
+    }
+  ]
+}
