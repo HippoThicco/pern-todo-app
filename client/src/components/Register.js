@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 
-const Login = ({ setUser }) => {
+const Register = ({ setUser }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
-  const handleLogin = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
 
     try {
-      const response = await fetch('http://localhost:5000/login', {
+      const response = await fetch('http://localhost:5000/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
@@ -19,12 +21,13 @@ const Login = ({ setUser }) => {
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.message || data.error || 'Login failed');
+        setError(data.message || data.error || 'Registration failed');
         return;
       }
 
-      setUser(data);
-      alert(`Welcome, ${data.username}!`);
+      setSuccess('Registration successful! You can now log in.');
+      setUsername('');
+      setPassword('');
     } catch (err) {
       setError('Something went wrong. Please try again.');
       console.log(err.message);
@@ -33,9 +36,9 @@ const Login = ({ setUser }) => {
 
   return (
     <div className="container mt-5">
-      <h2 className="text-center">Login</h2>
+      <h2 className="text-center">Register</h2>
       <form
-        onSubmit={handleLogin}
+        onSubmit={handleRegister}
         className="d-flex flex-column align-items-center mt-3"
         style={{ maxWidth: '300px', margin: '0 auto' }}
       >
@@ -55,11 +58,12 @@ const Login = ({ setUser }) => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button className="btn btn-primary w-100">Login</button>
+        <button className="btn btn-success w-100">Register</button>
         {error && <p className="text-danger mt-2">{error}</p>}
+        {success && <p className="text-success mt-2">{success}</p>}
       </form>
     </div>
   );
 };
 
-export default Login;
+export default Register;
